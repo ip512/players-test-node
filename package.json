@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "main": "src/server.ts",
+  "scripts": {
+    "lint": "eslint",
+    "build": "tsc -p tsconfig.json",
+    "start": "npm run build && node --watch --enable-source-maps ./dist/server.js",
+    "test": "vitest --config test/vitest.config.ts",
+    "build-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "fastify": "^5.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.14",
+    "typescript": "^5.8.2"
+  }
+}
