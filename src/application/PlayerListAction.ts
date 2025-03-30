@@ -1,18 +1,16 @@
 import { Player } from '../domain/Players.js';
 import { PlayersRepositoryInterface } from '../domain/PlayersRepositoryinterface.js';
-import { PlayersRepository } from '../infra/Persistence/PlayersRepository.js';
 
-export class PlayersListAction {
-    playersRepository: PlayersRepositoryInterface;
-
-    constructor() {
-        this.playersRepository = new PlayersRepository();
+export class PlayerListAction {
+    constructor(
+        private readonly playersRepository: PlayersRepositoryInterface
+    ) {
     }
 
     /**
      * Get players list sorted by rank
      */
-    getPlayersList(): Player[]
+    public getPlayerList(): Player[]
     {
         return this.playersRepository.findPlayersSortedByRank();
     }

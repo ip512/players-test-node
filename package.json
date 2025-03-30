@@ -2,17 +2,17 @@
   "type": "module",
   "main": "src/server.ts",
   "scripts": {
-    "lint": "eslint",
     "build": "tsc -p tsconfig.json",
-    "start": "npm run build && node --watch --enable-source-maps ./dist/server.js",
-    "test": "vitest --config test/vitest.config.ts",
-    "build-check": "tsc --noEmit"
+    "start": "npm run build && node ./dist/server.js",
+    "test": "jest"
   },
   "dependencies": {
     "fastify": "^5.2.2"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "@types/node": "^22.13.14",
+    "ts-jest": "^29.3.0",
     "typescript": "^5.8.2"
   }
 }

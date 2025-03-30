@@ -1,11 +1,11 @@
-import { PlayerNotFound } from '../../domain/Exception/PlayerNotFound.js';
+import { PlayerNotFound } from '../../domain/exception/PlayerNotFound.js';
 import { Player } from '../../domain/Players.js';
 import { PlayerInformation, SexEnum } from '../../domain/PlayerInformation.js';
 import { PlayersRepositoryInterface } from '../../domain/PlayersRepositoryinterface.js';
 import database from "./headtohead.json" with { type: "json" };
 
 export class PlayersRepository implements PlayersRepositoryInterface {
-  findPlayersSortedByRank(): Player[] {
+  public findPlayersSortedByRank(): Player[] {
     const sortedPlayers = database.players.sort((a, b): number => a.data.rank - b.data.rank);
 
     return sortedPlayers.map((row): Player => new Player(
@@ -18,25 +18,35 @@ export class PlayersRepository implements PlayersRepositoryInterface {
     ));
   }
 
-  findById(id: number): PlayerInformation {
+  public findById(id: number): PlayerInformation {
     const foundPlayer = database.players.find((player) => player.id === id);
 
     if (foundPlayer === undefined) {
       throw new PlayerNotFound();
     }
 
+    return this.buildPlayerInformation(foundPlayer);
+  }
+
+  public findPlayersInformation(): PlayerInformation[] {
+    return database.players.map((playerData) => this.buildPlayerInformation(playerData));
+  }
+
+  private buildPlayerInformation(playerData: any): PlayerInformation
+  {
     return new PlayerInformation(
-      foundPlayer.firstname,
-      foundPlayer.lastname,
-      foundPlayer.shortname,
-      foundPlayer.country,
-      foundPlayer.picture,
-      foundPlayer.sex as SexEnum,
-      foundPlayer.data.rank,
-      foundPlayer.data.points,
-      foundPlayer.data.weight,
-      foundPlayer.data.height,
-      foundPlayer.data.age
+      playerData.firstname,
+      playerData.lastname,
+      playerData.shortname,
+      playerData.country,
+      playerData.picture,
+      playerData.sex as SexEnum,
+      playerData.data.rank,
+      playerData.data.points,
+      playerData.data.weight,
+      playerData.data.height,
+      playerData.data.age,
+      playerData.data.last
     );
   }
 }

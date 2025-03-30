@@ -1,17 +1,24 @@
 import Fastify from 'fastify';
-import { PlayersListAction } from './application/PlayerListAction.js';
+import { PlayerListAction } from './application/PlayerListAction.js';
 import { PlayerActions } from './application/PlayerActions.js';
-import { PlayerNotFound } from './domain/Exception/PlayerNotFound.js';
+import { PlayerNotFound } from './domain/exception/PlayerNotFound.js';
+import { PlayersRepository } from './infra/Persistence/PlayersRepository.js';
+import { StatisticsAction } from './application/StatisticsAction.js';
+import { Imc } from './domain/service/Imc.js';
+import { MatchesRatio } from './domain/service/MatchesRatio.js';
+import { Median } from './domain/service/Median.js';
 
 const fastify = Fastify({
   logger: true
 });
 
-const playersListAction = new PlayersListAction();
-const playerAction = new PlayerActions();
+const playersRepository = new PlayersRepository();
+const playersListAction = new PlayerListAction(playersRepository);
+const playerAction = new PlayerActions(playersRepository);
+const statsAction = new StatisticsAction(playersRepository, new Imc(), new MatchesRatio(), new Median());
 
 fastify.get('/players', function (request, reply) {
-  reply.send(playersListAction.getPlayersList());
+  reply.send(playersListAction.getPlayerList());
 })
 
 fastify.get<{
@@ -28,6 +35,11 @@ fastify.get<{
     }
   }
 })
+
+fastify.get('/statistics', function (request, reply) {
+  reply.send(statsAction.getStatistics());
+})
+
 
 // Run the server!
 fastify.listen({ port: 3000 }, function (err, address) {
