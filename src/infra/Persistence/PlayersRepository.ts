@@ -2,7 +2,7 @@ import { PlayerNotFound } from '../../domain/exception/PlayerNotFound.js';
 import { Player } from '../../domain/Players.js';
 import { PlayerInformation, SexEnum } from '../../domain/PlayerInformation.js';
 import { PlayersRepositoryInterface } from '../../domain/PlayersRepositoryinterface.js';
-import database from "./headtohead.json" with { type: "json" };
+import database from "./headtohead.json";
 
 export class PlayersRepository implements PlayersRepositoryInterface {
   public findPlayersSortedByRank(): Player[] {

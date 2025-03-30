@@ -1,18 +1,22 @@
 {
-  "type": "module",
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10"
+  },
   "main": "src/server.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "npm run build && node ./dist/server.js",
+    "start": "npm run build && node ./dist/src/server.js",
+    "start-dist": "node dist/src/server.js",
     "test": "jest"
   },
   "dependencies": {
-    "fastify": "^5.2.2"
+    "fastify": "^5.2.2",
+    "typescript": "^5.8.2"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
     "@types/node": "^22.13.14",
-    "ts-jest": "^29.3.0",
-    "typescript": "^5.8.2"
+    "ts-jest": "^29.3.0"
   }
 }
